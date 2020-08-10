@@ -26,7 +26,7 @@ from pytorch_pretrained_bert.modeling import BertForQuestionAnswering
 from pytorch_pretrained_bert.optimization import BertAdam
 from pytorch_pretrained_bert.file_utils import PYTORCH_PRETRAINED_BERT_CACHE
 
-def _improve_answer_span(doc_tokens, input_start, input_end, tokenizer,
+def improve_answer_span(doc_tokens, input_start, input_end, tokenizer,
                          orig_answer_text):
     """Returns tokenized answer spans that better match the annotated answer."""
     # The SQuAD annotations are character based. We first project them to
@@ -61,7 +61,7 @@ def _improve_answer_span(doc_tokens, input_start, input_end, tokenizer,
     return (input_start, input_end)
 
 
-def _check_is_max_context(doc_spans, cur_span_index, position):
+def check_is_max_context(doc_spans, cur_span_index, position):
     """Check if this is the 'max context' doc span for the token."""
     ## cur_span_index means current span index
 
@@ -335,7 +335,7 @@ def get_final_text(pred_text, orig_text, do_lower_case, verbose_logging=False):
     return output_text
 
 
-def _get_best_indexes(logits, n_best_size):
+def get_best_indexes(logits, n_best_size):
     """Get the n-best logits from a list."""
     index_and_score = sorted(enumerate(logits), key=lambda x: x[1], reverse=True)
 
@@ -347,7 +347,7 @@ def _get_best_indexes(logits, n_best_size):
     return best_indexes
 
 
-def _compute_softmax(scores):
+def compute_softmax(scores):
     """Compute softmax probability over raw logits."""
     if not scores:
         return []
